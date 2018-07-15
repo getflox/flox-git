@@ -30,7 +30,7 @@ setup(
         git=flox_git.git:git
 
         [flox.cli_plugins.config]
-        aws=flox_git:config
+        git=flox_git:config
     ''',
     install_requires=install_requires,
     tests_require=tests_require,
