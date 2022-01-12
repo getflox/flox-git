@@ -6,6 +6,8 @@ from git import Repo, GitCommandError, rmtree
 
 from floxcore.context import Flox
 
+from loguru import logger
+
 
 def init_repository(flox: Flox, out, **kwargs):
     """Initialise Git repository"""
@@ -72,7 +74,16 @@ def commit_flox_files(flox: Flox, out, **kwargs):
         repo.git.add("-A", ".flox")
         repo.git.commit("-m", "Add flox meta files")
         out.success("Added flox meta files to git repository")
-    except GitCommandError:
+    except GitCommandError as e:
+        pass
+
+    try:
+        for f in kwargs.get("bootstrap_generated", []):
+            repo.git.add("-A", f)
+
+        repo.git.commit("-m", "Add flox bootstrapped files")
+        out.success("Added flox bootstrapped files to git repository")
+    except GitCommandError as e:
         pass
 
 
