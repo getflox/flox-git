@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flox-git"
-version = "0.1.1"
+version = "0.1.2"
 homepage = "https://github.com/getflox/flox-git"
 description = "Bootstrap git repository for your project managed by flox."
 authors = ["Michal Przytulski <michal@przytulski.pl>", "Daniel Ancuta <whisller@gmail.com>"]
