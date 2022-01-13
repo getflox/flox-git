@@ -3,6 +3,7 @@ from git import Repo, GitCommandError
 from floxcore.context import Flox
 from floxcore.exceptions import PluginException
 
+from loguru import logger
 
 def create_branch(flox: Flox, out, flow_id, **kwargs):
     """Create branch"""
@@ -29,6 +30,18 @@ def add_files(flox: Flox, out, message, **kwargs):
         pass
 
 
+def pull_changes(flox: Flox, out, branch, **kwargs):
+    """Pull changes from remote"""
+    repo = Repo(flox.working_dir)
+    try:
+        logger.debug("pull")
+        repo.git.branch(f"--set-upstream-to=origin/{branch}", branch)
+        repo.git.pull()
+        out.success(f"Pulled from remote origin")
+    except GitCommandError as e:
+        raise PluginException(f"Failed to pull")
+
+
 def push_changes(flox: Flox, out, **kwargs):
     """Push changes to remote"""
     repo = Repo(flox.working_dir)
@@ -37,7 +50,7 @@ def push_changes(flox: Flox, out, **kwargs):
         repo.git.push("--set-upstream", origin, repo.head.ref)
         out.success(f"Pushed to remote origin")
     except GitCommandError as e:
-        raise PluginException("Failed to push to origin")
+        raise PluginException(f"Failed to push to origin. {e.stderr}")
 
 
 def workflow_finish(flox: Flox, out, **kwargs):
