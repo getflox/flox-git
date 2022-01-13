@@ -24,8 +24,8 @@ class GitPlugin(Plugin):
 
     def handle_project(self, flox: Flox):
         return (
-            Stage(init_repository),
-            Stage(clone_repository),
+            Stage(init_repository, 1950),
+            Stage(clone_repository, 1950),
             Stage(create_default_gitignore),
             Stage(commit_flox_files),
             Stage(configure_branches),
